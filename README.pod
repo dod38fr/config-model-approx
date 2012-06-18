@@ -2,7 +2,8 @@
 
 This module provides a graphical configuration editor for
 the configuration file of 
-L<approx|http://packages.qa.debian.org/a/approx.html> 
+C<approx> (A package proxy cache for Debian. See 
+http://packages.qa.debian.org/a/approx.html) 
 (C</etc/approx/approx.conf>) .
 
 =head2 Main dependencies
