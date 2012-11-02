@@ -83,7 +83,7 @@ sub write {
 
     my $h = $node->fetch_element('distributions') ;
     $ioh->print("# ", $node->get_help(summary => 'distributions'),"\n");
-    foreach my $dname ($h->get_all_indexes) {
+    foreach my $dname ($h->fetch_all_indexes) {
 	$ioh->printf("%-10s %s\n",$dname,
 		     $node->grab_value("distributions:$dname")
 		    ) ;
