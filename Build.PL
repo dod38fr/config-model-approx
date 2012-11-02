@@ -1,4 +1,4 @@
-#    Copyright (c) 2009-2011 Dominique Dumont.
+#    Copyright (c) 2009-2012 Dominique Dumont.
 #
 #    This file is part of Config-Model-Approx.
 #
@@ -23,8 +23,7 @@ use Data::Dumper ;
 use warnings FATAL => qw(all) ;
 use strict ;
 
-# check that pod docs are up-to-date
-system("perl -Ilib script/gen_class_pod.pl");
+require 5.010;
 
 my %appli_files = map { ( $_, $_ ) } glob("lib/Config/Model/*.d/*");
 
@@ -33,18 +32,11 @@ my $build = Module::Build->new
    module_name   => 'Config::Model::Approx',
    license       => 'lgpl',
    dist_author   => "Dominique Dumont (ddumont at cpan dot org)",
-   dist_abstract => "Approx configuration files editor",
-   appli_files   => \%appli_files,
-   requires      => {
-		     perl              => '5.8.0',
-		     'Config::Model'   => '1.245',
-		     'Log::Log4perl'   => 0 ,
-		    },
-   build_requires => { 'Test::Pod' => 0 },
-   recommends    => {
-                     'Config::Model::CursesUI' => 0, # Curses interface
-                     'Config::Model::TkUI'     => 0, # graphical interface
-                    },
+   dist_abstract => "Approx configuration files graphical editor",
+   appli_files => \%appli_files ,
+ 
+##{ $plugin->get_prereqs ##}
+
    add_to_cleanup => [qw/wr_test/] ,
   );
 
