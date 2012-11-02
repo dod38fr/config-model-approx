@@ -1,3 +1,11 @@
+2012-11-02  Dominique Dumont  <domi.dumont@free.fr> 1.005
+
+    * updated doc with cme instead of config-edit
+    * replace deprecated call with new one (fetch_all_indexes)
+    * die honorably when no approx.conf is found
+    * removed utf-8 char from description
+    * added forgotten log of version 1.004 (sorry)
+
 2011-06-27  Dominique Dumont  <domi.dumont@free.fr> 1.004
 
     * no longer ship config-edit-approx. Replaced by
