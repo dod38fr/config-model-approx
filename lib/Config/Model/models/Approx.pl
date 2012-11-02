@@ -1,10 +1,6 @@
 [
   {
-    'class_description' => 'Configuration model to edit C</etc/approc/approx.conf>. This file can be edited with the following command:
-
- config-edit -application approx
-
-',
+    'class_description' => 'Configuration model for Approx',
     'read_config' => [
       {
         'file' => 'approx.conf',

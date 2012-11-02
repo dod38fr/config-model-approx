@@ -100,28 +100,33 @@ Config::Model::Approx - Approx configuration file editor
 
 =head1 SYNOPSIS
 
+ # full blown editor
+ sudo cme edit approx
+ 
+ # command line use
+ sudo cme modify approx distributions:multimedia=http://www.debian-multimedia.org
+
  use Config::Model ;
  my $model = Config::Model -> new ( ) ;
 
  my $inst = $model->instance (root_class_name   => 'Approx');
  my $root = $inst -> config_root ;
 
- $root->load("distribution:multimedia=http://www.debian-multimedia.org") ;
+ $root->load("distributions:multimedia=http://www.debian-multimedia.org") ;
 
  $inst->write_back() ;
 
 =head1 DESCRIPTION
 
-This module provides a configuration model for Approx. Then
-Config::Model provides a graphical editor program for
-F</etc/approx/approx.conf>. See L<config-edit-approx> more help.
-
-This module and Config::Model can also be used from Perl programs to
-modify safely the content of F</etc/approx/approx.conf>.
+This module provides a configuration editor for Approx. Running L<cme> as root
+will update C</etc/approx/approc.conf>.
 
 Once this module is installed, you can run:
 
- # config-edit-approx
+ # cme edit approx
+
+This module and Config::Model can also be used from Perl programs to
+modify safely the content of F</etc/approx/approx.conf>.
 
 The Perl API is documented in L<Config::Model> and mostly in
 L<Config::Model::Node>.
@@ -147,7 +152,7 @@ Dominique Dumont, (ddumont at cpan dot org)
 
 =head1 LICENSE
 
-   Copyright (c) 2009 Dominique Dumont.
+   Copyright (c) 2009,2012 Dominique Dumont.
 
    This file is part of Config-Model-Approx.
 
