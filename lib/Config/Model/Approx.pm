@@ -37,6 +37,8 @@ sub read {
 
     $logger->info("loading config file $args{file}") if defined $args{file};
 
+    die "Cannot read $args{config_dir}$args{file}\n" unless defined $args{io_handle} ;
+
     foreach ($args{io_handle}->getlines) {
 	chomp;
 	s/#.*//;
