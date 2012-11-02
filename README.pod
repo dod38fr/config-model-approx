@@ -29,11 +29,13 @@ Once this module is installed, you can run:
 If L<cme> fails to load your approx.conf, you can try 
 with -force option.
 
-=head2 Installation
+=head2 Installation from git
 
-   	perl Build.PL
-	./Build test
+Make sure that L<Config::Model> and L<Dist::Zilla> are installed, then run:
 
-If you want to install this software without packaging, type also:
+ dzil build
 
-    ./Build install
+If you want to install this software without packaging, you can also run:
+
+ dzil install
+
