@@ -1,22 +1,4 @@
 
-#    Copyright (c) 2009-2011 Dominique Dumont.
-#
-#    This file is part of Config-Model-Approx.
-#
-#    Config-Model-Approx is free software; you can redistribute it and/or
-#    modify it under the terms of the GNU Lesser Public License as
-#    published by the Free Software Foundation; either version 2.1 of
-#    the License, or (at your option) any later version.
-#
-#    Config-Model-Approx is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#    Lesser Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser Public License
-#    along with Config-Model; if not, write to the Free Software
-#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-
 package Config::Model::Approx ;
 
 use strict ;
@@ -26,8 +8,6 @@ use Carp ;
 use Log::Log4perl;
 use File::Copy ;
 use File::Path ;
-
-our $VERSION = '1.004' ;
 
 my $logger = Log::Log4perl::get_logger(__PACKAGE__);
 
