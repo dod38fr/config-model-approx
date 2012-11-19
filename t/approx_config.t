@@ -1,5 +1,7 @@
 # -*- cperl -*-
 
+use lib 'lib';
+
 use ExtUtils::testlib;
 use Test::More tests => 5;
 use Config::Model ;
@@ -56,12 +58,12 @@ my $cfg = $inst -> config_root ;
 my $dump =  $cfg->dump_tree ();
 print $dump if $trace ;
 
-my $expect = 'max_rate=100K
-verbose=1
+my $expect = q(max_rate=100K
+verbose=1#"old style parameter (before approx 2.9.0)"
 distributions:debian=http://ftp.debian.org/debian
 distributions:local=file:///my/local/repo
-distributions:security=http://security.debian.org/debian-security -
-';
+distributions:security=http://security.debian.org/debian-security#"let's be secure" -
+);
 
 is ($dump,$expect,"check data read from approx.conf") ;
 
@@ -85,5 +87,6 @@ $max_rate 100K
 verbose  1
 
 debian          http://ftp.debian.org/debian
+# let's be secure
 security        http://security.debian.org/debian-security
 local           file:///my/local/repo
