@@ -4,6 +4,8 @@
     * added more complete test for Approx model
     * changed backend from 'custom' to 'Approx'
     * setup Build.PL to refresh models pod doc
+    * added accept instruction in model to accept new parameters
+      that the author may have missed.
 
 2012-11-02  Dominique Dumont  <domi.dumont@free.fr> 1.005
 
