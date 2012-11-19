@@ -1,3 +1,10 @@
+2012-11-19  Dominique Dumont  <domi.dumont@free.fr> 1.006
+
+    * require Config::Model 2.026 (HEAD, master)
+    * added more complete test for Approx model
+    * changed backend from 'custom' to 'Approx'
+    * setup Build.PL to refresh models pod doc
+
 2012-11-02  Dominique Dumont  <domi.dumont@free.fr> 1.005
 
     * updated doc with cme instead of config-edit
