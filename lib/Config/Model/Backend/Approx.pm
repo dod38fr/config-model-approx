@@ -1,72 +1,98 @@
+package Config::Model::Backend::Approx ;
 
-package Config::Model::Approx ;
-
-use strict ;
-use warnings ;
-
+use Any::Moose ;
+use Log::Log4perl qw(get_logger :levels);
 use Carp ;
-use Log::Log4perl;
 use File::Copy ;
 use File::Path ;
+use 5.010 ;
 
-my $logger = Log::Log4perl::get_logger(__PACKAGE__);
+
+extends 'Config::Model::Backend::Any';
+
+# optional
+sub suffix { 
+   return '.conf';
+}
+
+sub annotation {
+    return 1 ; 
+}
+
+
+my $logger = Log::Log4perl::get_logger('Backend::Approx');
 
 sub read {
-    # keys are object , root,  config_dir, io_handle, file
+    my $self = shift ;
     my %args = @_ ;
 
-    $logger->info("loading config file $args{file}") if defined $args{file};
+    # args are:
+    # root       => './my_test',  # fake root directory, userd for tests
+    # config_dir => /etc/foo',    # absolute path 
+    # file       => 'foo.conf',   # file name
+    # file_path  => './my_test/etc/foo/foo.conf' 
+    # io_handle  => $io           # IO::File object
+    # check      => yes|no|skip
 
     die "Cannot read $args{config_dir}$args{file}\n" unless defined $args{io_handle} ;
 
-    foreach ($args{io_handle}->getlines) {
-	chomp;
-	s/#.*//;
-	s/\s+/=/; # translate file in string loadable by C::M::Loader
-	next unless $_;
-	my $load = s/^\$// ? $_ 
-                 : m!://!  ? "distributions:".$_
-                 :           $_ ; # old style parameter
-	$args{object}->load($load) ;
+    $logger->info("loading config file $args{file}") if defined $args{file};
+    my @lines = $args{io_handle}->getlines ;
+    my $global = $self->read_global_comments(\@lines, '#') ;
+    $self->node->annotation($global) ;
+    
+    my @data = $self->associates_comments_with_data(\@lines, '#') ;
+
+    foreach my $item (@data) {
+        my ($line,$note) = @$item ;
+
+        my ($k,$v) = split /\s+/,$line,2 ;
+
+	my $step = ($k =~ s/^\$//) ? $k 
+                 : ($v =~ m!://!)  ? "distributions:".$k
+                 :                 $k ; # old style parameter
+	my $leaf = $self->node->grab(step => $step) ;
+	$leaf->store($v) ;
+	$leaf->annotation($note) ;
     }
 
     return 1;
 }
 
 sub write {
+    my $self = shift ;
     my %args = @_ ;
 
     $logger->info("writing config file $args{file}");
     my $node = $args{object} ;
     my $ioh  = $args{io_handle} ;
 
-    $ioh->print("# This file was written by Config::Model with Approx model\n");
-    $ioh->print("# You may modify the content of this file. Configuration \n");
-    $ioh->print("# modifications will be preserved. Modifications in the comments\n");
-    $ioh->print("# will be discarded\n\n");
+    $ioh->print("## This file was written by 'cme edit approx'\n");
+    $ioh->print("## You may modify the content of this file.\n\n");
+
+    $ioh->printf("# %s\n", $node->annotation) if $node->annotation;
 
     # Using Config::Model::ObjTreeScanner would be overkill
     foreach my $elt ($node->get_element_name) {
 	next if $elt eq 'distributions';
 
-	# write some documentation in comments
-	$ioh->print("# $elt:", $node->get_help(summary => $elt));
-	my $upstream_default = $node->fetch_element($elt) -> fetch('upstream_default') ;
-	$ioh->print(" ($upstream_default)") if defined $upstream_default;
-	$ioh->print("\n") ;
-
 	# write value
-	my $v = $node->grab_value($elt) ;
-	$ioh->printf("\$%-10s %s\n",$elt,$v) if defined $v ;
-	$ioh->print("\n") ;
+	my $obj = $node->grab($elt) ;
+        my $v = $obj->fetch ;
+
+        if (defined $v) {
+            $ioh->printf("# %s\n", $obj->annotation) if $obj->annotation;
+            $ioh->printf("\$%-10s %s\n\n",$elt,$v) ;
+        }
     }
 
     my $h = $node->fetch_element('distributions') ;
-    $ioh->print("# ", $node->get_help(summary => 'distributions'),"\n");
     foreach my $dname ($h->fetch_all_indexes) {
-	$ioh->printf("%-10s %s\n",$dname,
-		     $node->grab_value("distributions:$dname")
-		    ) ;
+        my $d = $node->grab("distributions:$dname") ;
+
+        my $note = $d->annotation;
+        $ioh->print("# $note\n") if $note;
+	$ioh->printf("%-10s %s\n",$dname,$d->fetch) ;
     }
     return 1;
 
@@ -76,80 +102,29 @@ sub write {
 
 =head1 NAME
 
-Config::Model::Approx - Approx configuration file editor
+Config::Model::Backend::Approx - Approx configuration file editor
 
 =head1 SYNOPSIS
 
- # full blown editor
- sudo cme edit approx
- 
- # command line use
- sudo cme modify approx distributions:multimedia=http://www.debian-multimedia.org
-
- use Config::Model ;
- my $model = Config::Model -> new ( ) ;
-
- my $inst = $model->instance (root_class_name   => 'Approx');
- my $root = $inst -> config_root ;
-
- $root->load("distributions:multimedia=http://www.debian-multimedia.org") ;
-
- $inst->write_back() ;
+ # This backend is loaded by Config::Model::Node
 
 =head1 DESCRIPTION
 
-This module provides a configuration editor for Approx. Running L<cme> as root
-will update C</etc/approx/approc.conf>.
+This module provides a backend to read and write configuration files for Approx.
 
-Once this module is installed, you can run:
 
- # cme edit approx
+=head1 Methods
 
-This module and Config::Model can also be used from Perl programs to
-modify safely the content of F</etc/approx/approx.conf>.
-
-The Perl API is documented in L<Config::Model> and mostly in
-L<Config::Model::Node>.
-
-=head1 Functions
-
-These functions are declared in Approx configuration models and are
-called back.
-
-=head2 read (object => approx_root>, io_handle => ...)
+=head2 read (object => approx_root, io_handle => ...)
 
 Read F<approx.conf> and load the data in the C<approx_root>
 configuration tree.
 
-=head2 write (object => approx_root>, io_handle => ...)
+=head2 write (object => approx_root, io_handle => ...)
 
 Write data from the C<approx_root> configuration tree into
 F<approx.conf>.
 
-=head1 AUTHOR
-
-Dominique Dumont, (ddumont at cpan dot org)
-
-=head1 LICENSE
-
-   Copyright (c) 2009,2012 Dominique Dumont.
-
-   This file is part of Config-Model-Approx.
-
-   Config-Model-Approx is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser Public License as
-   published by the Free Software Foundation; either version 2.1 of
-   the License, or (at your option) any later version.
-
-   Config-Xorg is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser Public License for more details.
-
-   You should have received a copy of the GNU Lesser Public License
-   along with Config-Model; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-
 =head1 SEE ALSO
 
-L<config-edit-approx>, L<Config::Model>,
+L<cme>, L<Config::Model::Backend::Any>,

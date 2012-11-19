@@ -4,8 +4,7 @@
     'read_config' => [
       {
         'file' => 'approx.conf',
-        'backend' => 'custom',
-        'class' => 'Config::Model::Approx',
+        'backend' => 'Approx',
         'config_dir' => '/etc/approx'
       }
     ],
@@ -41,7 +40,7 @@
         'value_type' => 'uniline',
         'summary' => 'maximum download rate from remote repositories',
         'type' => 'leaf',
-        'description' => "Specifies the maximum download rate from remote repositories, in bytes per second (default: unlimited). The value may be suffixed with \"K\", \"M\", or \"G\" to indicate kilobytes, megabytes, or gigabytes per second, respectively."
+        'description' => 'Specifies the maximum download rate from remote repositories, in bytes per second (default: unlimited). The value may be suffixed with "K", "M", or "G" to indicate kilobytes, megabytes, or gigabytes per second, respectively.'
       },
       'max_redirects',
       {
