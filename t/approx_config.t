@@ -29,7 +29,7 @@ Config::Model::Exception::Any->Trace(1) if $arg =~ /e/;
 ok(1,"compiled");
 
 # pseudo root where config files are written by config-model
-my $wr_root = 'wr_test';
+my $wr_root = 'wr_root';
 
 my $testdir = 'approx_test' ;
 
