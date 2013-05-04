@@ -1,3 +1,10 @@
+{{$NEXT}}
+
+2013-05-04 - 1.007
+
+    * depends directly on Mouse instead of Any::Moose
+    * Build.PL: fix pod doc generation
+
 2012-11-19  Dominique Dumont  <domi.dumont@free.fr> 1.006
 
     * require Config::Model 2.026 (HEAD, master)
