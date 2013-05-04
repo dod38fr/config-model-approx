@@ -10,3 +10,7 @@ _build
 blib
 wr_root
 wr_test
+^MYMETA\.json$
+.git
+\.bak$
+Build$
