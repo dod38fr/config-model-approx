@@ -1,6 +1,6 @@
 package Config::Model::Backend::Approx ;
 
-use Any::Moose ;
+use Mouse ;
 use Log::Log4perl qw(get_logger :levels);
 use Carp ;
 use File::Copy ;
