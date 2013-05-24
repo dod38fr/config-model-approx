@@ -27,7 +27,7 @@ Config::Model::Approx - Approx configuration file editor
 =head1 DESCRIPTION
 
 This module provides a configuration editor for Approx. Running L<cme> as root
-will update C</etc/approx/approc.conf>.
+will update C</etc/approx/approx.conf>.
 
 Once this module is installed, you can run:
 
