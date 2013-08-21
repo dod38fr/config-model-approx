@@ -1,5 +1,10 @@
 {{$NEXT}}
 
+2013-08-21 - 1.009
+
+    * Build-depends on Config::Model::Tester
+    * Removed tests dependency now handler by Config::Model::Tester
+
 2013-05-05 - 1.008
 
     * Fixed pod test
