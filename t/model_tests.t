@@ -2,6 +2,8 @@
 use warnings;
 
 use strict;
+use EV;
+use AnyEvent;
 
 use Config::Model::Tester ;
 use ExtUtils::testlib;
