@@ -50,7 +50,7 @@ Dominique Dumont, (ddumont at cpan dot org)
    This file is part of Config-Model-Approx.
 
    Config-Model-Approx is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser Public License as
+   modify it under the terms of the GNU Lesser General Public License as
    published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
 
