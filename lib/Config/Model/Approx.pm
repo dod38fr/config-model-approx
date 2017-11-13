@@ -1,5 +1,7 @@
 package Config::Model::Approx ;
 
+use Config::Model 2.109;
+
 1 ;
 
 =head1 NAME
@@ -10,7 +12,7 @@ Config::Model::Approx - Approx configuration file editor
 
  # full blown editor
  sudo cme edit approx
- 
+
  # command line use
  sudo cme modify approx distributions:multimedia=http://www.debian-multimedia.org
 
