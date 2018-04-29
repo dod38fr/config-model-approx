@@ -4,10 +4,9 @@ $conf_file_name = 'approx.conf';
 $conf_dir = '/etc/approx' ;
 
 @tests = (
-    { 
+    {
         name => 'basic' ,
-        load_warnings => undef , # some weird warnings pop up in Perl smoke tests with perl 5.15.9
-        check => { 
+        check => {
             # 'AuthorizedKeysFile:0' => '/etc/ssh/userkeys/%u',
             # 'AuthorizedKeysFile:1' => '/var/lib/misc/userkeys2/%u',
         },
