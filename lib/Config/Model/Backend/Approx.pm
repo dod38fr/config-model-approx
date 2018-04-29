@@ -7,18 +7,11 @@ use File::Copy ;
 use File::Path ;
 use 5.010 ;
 
-
 extends 'Config::Model::Backend::Any';
 
-# optional
-sub suffix { 
-   return '.conf';
-}
-
 sub annotation {
-    return 1 ; 
+    return 1 ;
 }
-
 
 my $logger = Log::Log4perl::get_logger('Backend::Approx');
 
