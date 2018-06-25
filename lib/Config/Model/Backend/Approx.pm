@@ -27,13 +27,11 @@ sub read {
     # io_handle  => $io           # IO::File object
     # check      => yes|no|skip
 
-    die "Cannot read $args{config_dir}$args{file}\n" unless defined $args{io_handle} ;
-
     $logger->info("loading config file $args{file}") if defined $args{file};
-    my @lines = $args{io_handle}->getlines ;
+    my @lines = $args{file_path}->lines_utf8 ;
     my $global = $self->read_global_comments(\@lines, '#') ;
     $self->node->annotation($global) ;
-    
+
     my @data = $self->associates_comments_with_data(\@lines, '#') ;
 
     foreach my $item (@data) {
@@ -58,12 +56,7 @@ sub write {
 
     $logger->info("writing config file $args{file}");
     my $node = $args{object} ;
-    my $ioh  = $args{io_handle} ;
-
-    $ioh->print("## This file was written by 'cme edit approx'\n");
-    $ioh->print("## You may modify the content of this file.\n\n");
-
-    $ioh->printf("# %s\n", $node->annotation) if $node->annotation;
+    my $res = $self->write_global_comment('#');
 
     # Using Config::Model::ObjTreeScanner would be overkill
     foreach my $elt ($node->get_element_name) {
@@ -74,8 +67,8 @@ sub write {
         my $v = $obj->fetch ;
 
         if (defined $v) {
-            $ioh->printf("# %s\n", $obj->annotation) if $obj->annotation;
-            $ioh->printf("\$%-10s %s\n\n",$elt,$v) ;
+            $res .= sprintf("# %s\n", $obj->annotation) if $obj->annotation;
+            $res .= sprintf("\$%-10s %s\n\n",$elt,$v) ;
         }
     }
 
@@ -84,11 +77,12 @@ sub write {
         my $d = $node->grab("distributions:$dname") ;
 
         my $note = $d->annotation;
-        $ioh->print("# $note\n") if $note;
-	$ioh->printf("%-10s %s\n",$dname,$d->fetch) ;
+        $res .= "# $note\n" if $note;
+        $res .= sprintf("%-10s %s\n",$dname,$d->fetch) ;
     }
-    return 1;
 
+    $args{file_path}->spew_utf8($res);
+    return 1;
 }
 
 1;

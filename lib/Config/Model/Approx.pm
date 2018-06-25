@@ -1,6 +1,6 @@
 package Config::Model::Approx ;
 
-use Config::Model 2.109;
+use Config::Model 2.123;
 
 1 ;
 
