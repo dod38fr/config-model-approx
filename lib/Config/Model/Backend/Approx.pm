@@ -41,12 +41,12 @@ sub read {
 
         my ($k,$v) = split /\s+/,$line,2 ;
 
-	my $step = ($k =~ s/^\$//) ? $k 
-                 : ($v =~ m!://!)  ? "distributions:".$k
-                 :                 $k ; # old style parameter
-	my $leaf = $self->node->grab(step => $step) ;
-	$leaf->store($v) ;
-	$leaf->annotation($note) ;
+        my $step = ($k =~ s/^\$//) ? $k
+            : ($v =~ m!://!)  ? "distributions:".$k
+            :                 $k ; # old style parameter
+        my $leaf = $self->node->grab(step => $step) ;
+        $leaf->store($v) ;
+        $leaf->annotation($note) ;
     }
 
     return 1;
