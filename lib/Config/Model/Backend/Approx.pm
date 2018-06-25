@@ -87,9 +87,7 @@ sub write {
 
 1;
 
-=head1 NAME
-
-Config::Model::Backend::Approx - Approx configuration file editor
+# ABSTRACT: Read and write Approx configuration file
 
 =head1 SYNOPSIS
 
@@ -99,15 +97,14 @@ Config::Model::Backend::Approx - Approx configuration file editor
 
 This module provides a backend to read and write configuration files for Approx.
 
-
 =head1 Methods
 
-=head2 read (object => approx_root, io_handle => ...)
+=head2 read
 
 Read F<approx.conf> and load the data in the C<approx_root>
 configuration tree.
 
-=head2 write (object => approx_root, io_handle => ...)
+=head2 write
 
 Write data from the C<approx_root> configuration tree into
 F<approx.conf>.

@@ -4,18 +4,20 @@ use Config::Model 2.123;
 
 1 ;
 
-=head1 NAME
-
-Config::Model::Approx - Approx configuration file editor
+# ABSTRACT: Approx configuration file editor
 
 =head1 SYNOPSIS
+
+ # Check approx content
+ cme check approx
 
  # full blown editor
  sudo cme edit approx
 
  # command line use
- sudo cme modify approx distributions:multimedia=http://www.debian-multimedia.org
+ sudo cme modify approx 'distributions:multimedia=http://www.debian-multimedia.org'
 
+ # Perl API
  use Config::Model ;
  my $model = Config::Model -> new ( ) ;
 
@@ -41,29 +43,23 @@ modify safely the content of F</etc/approx/approx.conf>.
 The Perl API is documented in L<Config::Model> and mostly in
 L<Config::Model::Node>.
 
-=head1 AUTHOR
+=head1 BUGS
 
-Dominique Dumont, (ddumont at cpan dot org)
+The configuration file is reformatted when written.
 
-=head1 LICENSE
+=head1 SEE ALSO
 
-   Copyright (c) 2009,2012 Dominique Dumont.
+=over
 
-   This file is part of Config-Model-Approx.
+=item *
 
-   Config-Model-Approx is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public License as
-   published by the Free Software Foundation; either version 2.1 of
-   the License, or (at your option) any later version.
+L<cme>
 
-   Config-Xorg is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+=item *
 
-   You should have received a copy of the GNU Lesser General Public License
-   along with Config-Model; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+L<Using cme wiki page|https://github.com/dod38fr/config-model/wiki/Using-cme>
+
+=back
 
 =head1 SEE ALSO
 
