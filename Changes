@@ -1,5 +1,14 @@
 {{$NEXT}}
 
+1.012 2021-01-22
+
+  Tests update:
+    * use new style of test declaration
+      (require Config::Model::Tester 4.001)
+
+  Other changes:
+    * update copyright year
+
 1.011 - 2018-06-25
 
   Update to cope with newer Config::Model
